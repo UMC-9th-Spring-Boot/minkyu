@@ -1,0 +1,37 @@
+# 워크플로우 이름
+name: MinKyu_Umc9th
+
+
+on:
+  push:
+    branches: [ "develop" ]
+  pull_request:
+    branches: [ "develop" ]
+
+# 실행될 작업 정의
+jobs:
+
+  build:
+    # OS 환경 지정
+    runs-on: ubuntu-latest
+
+    # 작업 단계들
+    steps:
+      # 1. 리포지토리 코드를 가져오기
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. JDK 24 설치
+      - name: Set up JDK 24
+        uses: actions/setup-java@v4
+        with:
+          java-version: '24'
+          distribution: 'temurin'
+
+      # 3. gradlew 실행 권한 부여
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew
+
+      # 4. Gradle로 빌드 및 테스트 실행
+      - name: Build with Gradle
+        run: ./gradlew build
