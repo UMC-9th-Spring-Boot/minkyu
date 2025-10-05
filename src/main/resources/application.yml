@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: "umc_9th" # "umc9th"
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver #
+    url: jdbc:mysql://localhost:3306/umc9th #
+    username: root # MySQL ?? ??
+    password: 1234 # MySQL ????
+
+  jpa:
+    database: mysql #
+    database-platform: org.hibernate.dialect.MySQLDialect #
+    show-sql: true #
+    hibernate:
+      ddl-auto: create #
+    properties:
+      hibernate:
+        format_sql: true #
