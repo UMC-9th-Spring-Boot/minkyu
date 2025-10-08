@@ -53,24 +53,24 @@ public class Member extends BaseEntity {
 
 
 
-    @OneToOne(fetch = FetchType.LAZY) // 동의 테이블과 1:1 관계 매핑
-    @JoinColumn(name = "agree_id")
-    private Agree agree;
+    //양방향 고려
 
-    @OneToMany(fetch = FetchType.LAZY) // 리뷰 테이블 N:1 관계 매핑
-    @JoinColumn(name = "review_id")
-    private List<Review> reviews;
-
-    @OneToMany(fetch = FetchType.LAZY) // 미션 테이블 N:1 관계 매핑
-    @JoinColumn(name = "userMission_id")
-    private List<UserMission> userMissions ;
-
-
-
-//Lazy : 프록시 객체로 채워두고 실제로 그 연관된 엔티티의 데이터를 사용하는 시점
-    @OneToOne(fetch = FetchType.LAZY) // 지역 테이블과 1:1 관계 매핑
-    @JoinColumn(name = "region_id")
-    private Region Region;
+//    @OneToOne(fetch = FetchType.LAZY) // 동의 테이블과 1:1 관계 매핑
+//    @JoinColumn(name = "agree_id")
+//    private Agree agree;
+//
+//    @OneToMany(fetch = FetchType.LAZY) // 리뷰 테이블 N:1 관계 매핑
+//    @JoinColumn(name = "review_id")
+//    private List<Review> reviews;
+//
+//    @OneToMany(fetch = FetchType.LAZY) // 미션 테이블 N:1 관계 매핑
+//    @JoinColumn(name = "userMission_id")
+//    private List<UserMission> userMissions ;
+//
+////Lazy : 프록시 객체로 채워두고 실제로 그 연관된 엔티티의 데이터를 사용하는 시점
+//    @OneToOne(fetch = FetchType.LAZY) // 지역 테이블과 1:1 관계 매핑
+//    @JoinColumn(name = "region_id")
+//    private Region Region;
 
 
 

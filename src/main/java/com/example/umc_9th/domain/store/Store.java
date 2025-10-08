@@ -26,10 +26,10 @@ public class Store extends BaseEntity {
     private String name; //가게 이름
 
 
-
-    @OneToMany(fetch = FetchType.LAZY)//미션 테이블과 1:N관계매핑
-    @JoinColumn(name="mission_id")
-    private List<Mission> missions;
+//양방향 고려
+//    @OneToMany(fetch = FetchType.LAZY)//미션 테이블과 1:N관계매핑
+//    @JoinColumn(name="mission_id")
+//    private List<Mission> missions;
 
     @OneToOne(fetch = FetchType.LAZY) //FoodCategory 테이블과 1:1 관계 매핑
     @JoinColumn(name = "foodCategory_id")

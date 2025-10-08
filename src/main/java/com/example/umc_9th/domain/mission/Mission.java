@@ -34,9 +34,11 @@ public class Mission extends BaseEntity {
 //    @ColumnDefault("0")
     private int points=0; //미션 포인트
 
-    @OneToMany(fetch = FetchType.LAZY) // 미션 테이블 N:1 관계 매핑
-    @JoinColumn(name = "userMission_id")
-    private List<UserMission> userMissions ;
+    
+    //양방향 고려
+//    @OneToMany(fetch = FetchType.LAZY) // 미션 테이블 N:1 관계 매핑
+//    @JoinColumn(name = "userMission_id")
+//    private List<UserMission> userMissions ;
 
 
     @ManyToOne(fetch = FetchType.LAZY) // 리뷸 테이블 N:1 관계 매핑
