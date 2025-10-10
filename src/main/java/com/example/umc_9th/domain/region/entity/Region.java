@@ -1,7 +1,6 @@
-package com.example.umc_9th.domain.region;
+package com.example.umc_9th.domain.region.entity;
 
-import com.example.umc_9th.domain.member.Agree;
-import com.example.umc_9th.domain.member.Member;
+import com.example.umc_9th.domain.member.entity.Member;
 import com.example.umc_9th.grobal.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;

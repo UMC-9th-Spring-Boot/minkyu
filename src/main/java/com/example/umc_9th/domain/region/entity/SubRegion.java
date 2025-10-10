@@ -1,4 +1,4 @@
-package com.example.umc_9th.domain.region;
+package com.example.umc_9th.domain.region.entity;
 
 
 import com.example.umc_9th.grobal.BaseEntity;

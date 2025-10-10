@@ -1,7 +1,6 @@
-package com.example.umc_9th.domain.review;
+package com.example.umc_9th.domain.review.entity;
 
 
-import com.example.umc_9th.domain.member.Member;
 import jakarta.persistence.*;
 import lombok.*;
 

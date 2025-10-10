@@ -1,9 +1,8 @@
-package com.example.umc_9th.domain.inquiry;
+package com.example.umc_9th.domain.inquiry.entity;
 
 
-import com.example.umc_9th.domain.member.Gender;
-import com.example.umc_9th.domain.member.Member;
-import com.example.umc_9th.domain.review.Review;
+import com.example.umc_9th.domain.inquiry.InquriesType;
+import com.example.umc_9th.domain.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.*;
 

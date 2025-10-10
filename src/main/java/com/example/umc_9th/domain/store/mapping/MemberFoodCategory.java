@@ -1,7 +1,7 @@
 package com.example.umc_9th.domain.store.mapping;
 
 
-import com.example.umc_9th.domain.member.Member;
+import com.example.umc_9th.domain.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.*;
 
