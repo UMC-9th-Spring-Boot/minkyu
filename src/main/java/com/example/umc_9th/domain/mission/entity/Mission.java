@@ -1,13 +1,10 @@
-package com.example.umc_9th.domain.mission;
+package com.example.umc_9th.domain.mission.entity;
 
-import com.example.umc_9th.domain.mission.mapping.UserMission;
-import com.example.umc_9th.domain.review.Review;
+import com.example.umc_9th.domain.review.entity.Review;
+import com.example.umc_9th.domain.store.Store;
 import com.example.umc_9th.grobal.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
-
-import java.util.List;
 
 
 @Entity
@@ -40,6 +37,10 @@ public class Mission extends BaseEntity {
 //    @JoinColumn(name = "userMission_id")
 //    private List<UserMission> userMissions ;
 
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "store_id")
+    private Store store;
 
     @ManyToOne(fetch = FetchType.LAZY) // 리뷸 테이블 N:1 관계 매핑
     @JoinColumn(name = "review_id")

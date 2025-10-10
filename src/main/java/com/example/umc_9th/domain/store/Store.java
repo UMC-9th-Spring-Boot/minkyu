@@ -1,14 +1,10 @@
 package com.example.umc_9th.domain.store;
 
-import com.example.umc_9th.domain.mission.Mission;
-import com.example.umc_9th.domain.region.Region;
-import com.example.umc_9th.domain.review.ReviewImage;
+import com.example.umc_9th.domain.region.entity.Region;
 import com.example.umc_9th.domain.store.mapping.FoodCategory;
 import com.example.umc_9th.grobal.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.List;
 
 @Entity
 @Getter
@@ -38,6 +34,9 @@ public class Store extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)//지역 테이블과 N:1관계매핑
     @JoinColumn(name="region_id")
     private Region region;
+
+
+
 
 
 }
