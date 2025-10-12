@@ -1,8 +1,8 @@
 package com.example.umc_9th.domain.mission.mapping;
 
 
-import com.example.umc_9th.domain.member.Member;
-import com.example.umc_9th.domain.mission.Mission;
+import com.example.umc_9th.domain.member.entity.Member;
+import com.example.umc_9th.domain.mission.entity.Mission;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;

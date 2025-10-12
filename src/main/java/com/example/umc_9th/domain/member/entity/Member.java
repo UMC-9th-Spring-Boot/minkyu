@@ -1,17 +1,12 @@
-package com.example.umc_9th.domain.member;
+package com.example.umc_9th.domain.member.entity;
 
-import com.example.umc_9th.domain.mission.mapping.UserMission;
-import com.example.umc_9th.domain.region.Region;
-import com.example.umc_9th.domain.region.SubRegion;
-import com.example.umc_9th.domain.review.Review;
+import com.example.umc_9th.domain.member.Gender;
 import com.example.umc_9th.grobal.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
 
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
 @Getter
@@ -22,7 +17,7 @@ public class Member extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; //pk
+    private Long memberId; //pk
 
     @Column(nullable = false, length = 50)
     private String name; //이름

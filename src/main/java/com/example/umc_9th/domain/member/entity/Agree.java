@@ -1,4 +1,4 @@
-package com.example.umc_9th.domain.member;
+package com.example.umc_9th.domain.member.entity;
 
 import com.example.umc_9th.grobal.BaseEntity;
 import jakarta.persistence.*;
