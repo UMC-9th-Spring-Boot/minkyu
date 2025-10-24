@@ -13,4 +13,6 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     //(메서드 생성 방식 권장)
     Optional<Member> findById(Long id);
 
+
+    
 }

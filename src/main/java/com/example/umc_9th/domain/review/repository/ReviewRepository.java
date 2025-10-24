@@ -8,8 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface ReviewRepository extends JpaRepository<Review, Long> {
-
+public interface ReviewRepository extends JpaRepository<Review, Long>,ReviewQueryDsl {
 
 
     //2. 리뷰 작성하는 쿼리,
