@@ -1,13 +1,11 @@
-package com.example.umc_9th.domain.review;
+package com.example.umc_9th.domain.review.entity;
 
 
-import com.example.umc_9th.domain.member.Member;
-import com.example.umc_9th.domain.mission.Mission;
+import com.example.umc_9th.domain.member.entity.Member;
+import com.example.umc_9th.domain.store.Store;
 import com.example.umc_9th.grobal.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.List;
 
 @Entity
 @Getter
@@ -33,7 +31,9 @@ public class Review extends BaseEntity {
     private Member member;
 
 
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "shop_id")
+    private Store store;
 
 
     //양방향 고려
