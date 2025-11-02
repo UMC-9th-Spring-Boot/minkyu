@@ -35,15 +35,4 @@ public class Review extends BaseEntity {
     @JoinColumn(name = "shop_id")
     private Store store;
 
-
-    //양방향 고려
-//    @OneToMany(fetch = FetchType.LAZY)//미션 테이블과1 :N관계매핑
-//    @JoinColumn(name="mission_id")
-//    private List<Mission> missions;
-//
-//    @OneToMany(fetch = FetchType.LAZY)//리뷰 이미지와 1:N관계매핑
-//    @JoinColumn(name="reviewImage_id")
-//    private List<ReviewImage> reviewImages;
-
-
 }
