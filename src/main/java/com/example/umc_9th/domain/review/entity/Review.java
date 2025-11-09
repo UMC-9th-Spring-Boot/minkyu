@@ -2,7 +2,7 @@ package com.example.umc_9th.domain.review.entity;
 
 
 import com.example.umc_9th.domain.member.entity.Member;
-import com.example.umc_9th.domain.store.Store;
+import com.example.umc_9th.domain.store.entity.Store;
 import com.example.umc_9th.grobal.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;

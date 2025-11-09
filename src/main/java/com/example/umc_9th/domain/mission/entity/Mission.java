@@ -1,7 +1,7 @@
 package com.example.umc_9th.domain.mission.entity;
 
 import com.example.umc_9th.domain.review.entity.Review;
-import com.example.umc_9th.domain.store.Store;
+import com.example.umc_9th.domain.store.entity.Store;
 import com.example.umc_9th.grobal.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -30,12 +30,6 @@ public class Mission extends BaseEntity {
     @Column(nullable = false)
 //    @ColumnDefault("0")
     private int points=0; //미션 포인트
-
-    
-    //양방향 고려
-//    @OneToMany(fetch = FetchType.LAZY) // 미션 테이블 N:1 관계 매핑
-//    @JoinColumn(name = "userMission_id")
-//    private List<UserMission> userMissions ;
 
 
     @ManyToOne(fetch = FetchType.LAZY)
