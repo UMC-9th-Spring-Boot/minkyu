@@ -1,11 +1,15 @@
 package com.example.umc_9th.domain.mission.repository;
 
+import com.example.umc_9th.domain.member.entity.Member;
+import com.example.umc_9th.domain.mission.entity.Mission;
 import com.example.umc_9th.domain.mission.mapping.UserMission;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+
+import java.util.List;
 
 public interface UserMissionRepository extends JpaRepository<UserMission, Long> {
 
@@ -21,5 +25,10 @@ public interface UserMissionRepository extends JpaRepository<UserMission, Long> 
     Page<UserMission>findMyMission(@Param("memberId") Long memberId, Pageable pageable);
 
 
+    // 이미 도전 중인지 확인 (status=true가 진행중)
+    boolean existsByMemberAndMissionAndStatus(Member member, Mission mission, Boolean status);
+
+    // 회원의 진행 중인 미션 목록
+    List<UserMission> findByMemberAndStatus(Member member, Boolean status);
 
 }

@@ -1,7 +1,7 @@
-package com.example.umc_9th.domain.store;
+package com.example.umc_9th.domain.store.entity;
 
 import com.example.umc_9th.domain.region.entity.Region;
-import com.example.umc_9th.domain.store.mapping.FoodCategory;
+import com.example.umc_9th.domain.food.entity.FoodCategory;
 import com.example.umc_9th.grobal.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;

@@ -1,18 +1,17 @@
-package com.example.umc_9th.domain.store.mapping;
+package com.example.umc_9th.domain.food.entity;
 
 
-import com.example.umc_9th.domain.store.Store;
+import com.example.umc_9th.domain.store.entity.Store;
+import com.example.umc_9th.grobal.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.List;
 
 @Entity
 @Getter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class FoodCategory {
+public class FoodCategory extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -40,7 +40,11 @@ public class UserMission {
     private Mission mission;
 
 
-
+    // 미션 완료 처리 메서드
+    public void complete() {
+        this.status = false;
+        this.completedAt = LocalDateTime.now();
+    }
 
 
 }
