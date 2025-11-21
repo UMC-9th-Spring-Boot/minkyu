@@ -1,8 +1,8 @@
 package com.example.umc_9th.domain.mission.mapping;
 
 
-import com.example.umc_9th.domain.member.Member;
-import com.example.umc_9th.domain.mission.Mission;
+import com.example.umc_9th.domain.member.entity.Member;
+import com.example.umc_9th.domain.mission.entity.Mission;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -40,7 +40,11 @@ public class UserMission {
     private Mission mission;
 
 
-
+    // 미션 완료 처리 메서드
+    public void complete() {
+        this.status = false;
+        this.completedAt = LocalDateTime.now();
+    }
 
 
 }
