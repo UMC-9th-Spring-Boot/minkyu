@@ -3,6 +3,7 @@ package com.example.umc_9th.domain.review.controller;
 import com.example.umc_9th.domain.review.converter.ReviewConverter;
 import com.example.umc_9th.domain.review.dto.req.ReviewRequestDTO.CreateReviewDTO;
 import com.example.umc_9th.domain.review.dto.res.ReviewResponseDTO.CreateReviewResultDTO;
+import com.example.umc_9th.domain.review.entity.Review;
 import com.example.umc_9th.domain.review.service.ReviewService;
 import com.example.umc_9th.grobal.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -26,7 +27,7 @@ public class Review7thController {
             @RequestParam Long memberId,
             @Valid @RequestBody CreateReviewDTO request
     ) {
-        var review = reviewService.createReview(storeId, memberId, request);
+        Review review = reviewService.createReview(storeId, memberId, request);
         return ApiResponse.onSuccess(
                 ReviewConverter.toCreateReviewResultDTO(review, request.getImageUrls())
         );

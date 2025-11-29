@@ -5,15 +5,14 @@ import com.example.umc_9th.domain.member.dto.res.MemberResDTO;
 import com.example.umc_9th.domain.member.exception.code.MemberSuccessCode;
 import com.example.umc_9th.domain.member.service.MemberService;
 import com.example.umc_9th.grobal.apiPayload.ApiResponse;
+import com.example.umc_9th.grobal.auth.enums.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/members")
 public class MemberController {
 
     private final MemberService memberService;
@@ -22,7 +21,7 @@ public class MemberController {
     @PostMapping("/sign-up")
     public ApiResponse<MemberResDTO.JoinDTO> signUp(
             @RequestBody MemberReqDTO.JoinDTO dto
-    ) {
+            ) {
         return ApiResponse.success(MemberSuccessCode.FOUND, memberService.signup(dto));
     }
 

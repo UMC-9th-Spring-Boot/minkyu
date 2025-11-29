@@ -44,8 +44,6 @@ public class ReviewResponseDTO extends BaseEntity {
         private LocalDateTime createdAt;
     }
 
-
-
     @Getter
     @Builder
     @NoArgsConstructor
@@ -71,5 +69,28 @@ public class ReviewResponseDTO extends BaseEntity {
         @Schema(description = "작성일시")
         private LocalDateTime createdAt;
     }
+    // 워크북 Chapter9
+    // recordㄴ나 static class 로 두어서 DTO 정리
+    @Builder
+    public record ReviewPreViewListDTO(
+            List<ReviewPreViewDTO> reviewList,
+            Integer listSize,
+            Integer totalPage,
+            Long totalElements,
+            Boolean isFirst,
+            Boolean isLast
+    ){}
+
+    @Builder
+    public record ReviewPreViewDTO(
+            // 주인이름
+            String ownerNickname,
+            //평점
+            int score,
+            //리뷰내용
+            String body,
+            //생성 일자
+            LocalDateTime createdAt
+    ){}
 
 }

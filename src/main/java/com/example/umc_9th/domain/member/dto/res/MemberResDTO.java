@@ -12,12 +12,19 @@ public class MemberResDTO {
             LocalDateTime createAt
     ){}
 
+//     @Builder
+//    public record LoginDTO(
+//            Long memberId,
+//            String name,
+//            String email,
+//            LocalDateTime loginAt
+//    ){}
+
     @Builder
     public record LoginDTO(
             Long memberId,
-            String accessToken,
-            String refreshToken,
-            LocalDateTime loginAt
+            String accessToken
     ){}
+
 
 }

@@ -5,6 +5,7 @@ import com.example.umc_9th.domain.mission.entity.Mission;
 import com.example.umc_9th.domain.mission.mapping.UserMission;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -30,5 +31,8 @@ public interface UserMissionRepository extends JpaRepository<UserMission, Long> 
 
     // 회원의 진행 중인 미션 목록
     List<UserMission> findByMemberAndStatus(Member member, Boolean status);
+
+    @EntityGraph(attributePaths = {"mission", "mission.store"})
+    Page<UserMission> findAllByMemberAndStatus(Member member, Boolean status, Pageable pageable);
 
 }

@@ -3,6 +3,7 @@ package com.example.umc_9th.domain.member.entity;
 import com.example.umc_9th.domain.food.entity.MemberFood;
 import com.example.umc_9th.domain.member.Gender;
 import com.example.umc_9th.grobal.BaseEntity;
+import com.example.umc_9th.grobal.auth.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -54,6 +55,12 @@ public class Member extends BaseEntity {
 
     @Column(length = 255)
     String refreshToken;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+
+
 
     // 회원의 선호 카테고리 목록 (1:N 관계)
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)

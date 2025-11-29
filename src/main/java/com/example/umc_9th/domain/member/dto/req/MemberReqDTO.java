@@ -1,6 +1,8 @@
 package com.example.umc_9th.domain.member.dto.req;
 
 import com.example.umc_9th.domain.member.Gender;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -8,7 +10,9 @@ import java.util.List;
 public class MemberReqDTO {
 
     public record JoinDTO(
+            @Email
             String email,              // 추가
+            @NotBlank
             String password,           // 추가
             String phoneNumber,
             String name,
@@ -21,7 +25,9 @@ public class MemberReqDTO {
     ){}
 
     public record LoginDTO(
+            @NotBlank
             String email,
+            @NotBlank
             String password
     ){}
 

@@ -12,7 +12,14 @@ import com.example.umc_9th.domain.member.entity.Member;
 import com.example.umc_9th.domain.member.exception.MemberException;
 import com.example.umc_9th.domain.member.exception.code.MemberErrorCode;
 import com.example.umc_9th.domain.member.repository.MemberRepository;
+import com.example.umc_9th.grobal.auth.CustomUserDetails;
+import com.example.umc_9th.grobal.auth.JwtUtil;
+import com.example.umc_9th.grobal.auth.enums.Role;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -27,13 +34,16 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final MemberFoodRepository memberFoodRepository;
     private final FoodRepository foodRepository;
-
+    private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
     // 회원가입
-    public MemberResDTO.JoinDTO signup(MemberReqDTO.JoinDTO dto){
+    public MemberResDTO.JoinDTO signup(MemberReqDTO.JoinDTO dto) {
 
         // 멤버 객체 생성
-        Member member = MemberConverter.toMember(dto);
+        String salt = passwordEncoder.encode(dto.password());
+        Member member = MemberConverter.toMember(dto, salt, Role.ROLE_USER);
+
         // DB 적용
         memberRepository.save(member);
         // 선호 음식 존재 여부 확인
@@ -52,24 +62,63 @@ public class MemberService {
         return MemberConverter.toJoinDTO(member);
     }
 
-    //로그인
-    public MemberResDTO.LoginDTO login(MemberReqDTO.LoginDTO dto){
-        Member member =memberRepository.findByEmail(dto.email())
+
+
+    //실습2
+    public MemberResDTO.LoginDTO login(
+            MemberReqDTO.@Valid LoginDTO dto
+    ) {
+
+        // Member 조회
+        Member member = memberRepository.findByEmail(dto.email())
                 .orElseThrow(() -> new MemberException(MemberErrorCode.NOT_FOUND));
 
+        // 비밀번호 검증
+        if (!passwordEncoder.matches(dto.password(), member.getPassword())) {
+            throw new MemberException(MemberErrorCode.NOT_FOUND);
+        }
 
-        // 임시 토큰 부여
-        String acceessToken="임시 엑세스 토큰 ";
-        String refreshToken="임시 리프레쉬 토큰";
+        // JWT 토큰 발급용 UserDetails
+        CustomUserDetails userDetails = new CustomUserDetails(member);
+        // 엑세스 토큰 발급
+        String accessToken = jwtUtil.createAccessToken(userDetails);
 
-        // 응답 DTO 생성
-        return MemberResDTO.LoginDTO.builder()
-                .memberId(member.getMemberId())
-                .accessToken(acceessToken)
-                .refreshToken(refreshToken)
-                .loginAt(LocalDateTime.now())
-                .build();
+        // DTO
+        return MemberConverter.toLoginDTO(member, accessToken);
     }
+
+
+//    //1. 실습1
+//    public MemberResDTO.LoginDTO login(
+//            MemberReqDTO.@Valid LoginDTO dto
+//    ) {
+//
+//        // Member 조회
+//        Member member = memberRepository.findByEmail(dto.email())
+//                .orElseThrow(() -> new MemberException(MemberErrorCode.NOT_FOUND));
+//
+//        // 비밀번호 검증
+//        if (!passwordEncoder.matches(dto.password(), member.getPassword())) {
+//            throw new MemberException(MemberErrorCode.NOT_FOUND);
+//        }
+//
+//        // Spring Security 인증 객체 생성
+//        CustomUserDetails userDetails = new CustomUserDetails(member);
+//
+//        // 인증 토큰 생성
+//        // SecurityContext에 저장할 인증객체 생성
+//        UsernamePasswordAuthenticationToken authToken =
+//                new UsernamePasswordAuthenticationToken(
+//                        userDetails,
+//                        true,
+//                        userDetails.getAuthorities()
+//                );
+//
+//        // SecurityContext에 인증 정보 저장 (세션에 자동 저장됨)
+//        SecurityContextHolder.getContext().setAuthentication(authToken);
+//        // DTO
+//        return MemberConverter.toLoginDTO(member);
+//    }
 
 
 }
