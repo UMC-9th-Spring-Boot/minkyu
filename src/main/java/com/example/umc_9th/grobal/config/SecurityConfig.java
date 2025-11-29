@@ -34,7 +34,7 @@ public class SecurityConfig {
 
     // 허용할 URL를 따로 뺴서 관리
     private final String[] allowUris = {
-            "/api/members/login",      // ⭐ API 경로로 수정
+            "/api/members/login",      // API 경로로 수정
             "/api/members/sign-up",
             "/swagger-ui/**",
             "/swagger-resources/**",
