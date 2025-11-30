@@ -6,6 +6,8 @@ import com.example.umc_9th.grobal.auth.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -39,6 +41,7 @@ public class SecurityConfig {
             "/swagger-ui/**",
             "/swagger-resources/**",
             "/v3/api-docs/**",
+            "/logout"
     };
 
     @Bean
@@ -57,34 +60,48 @@ public class SecurityConfig {
                 )
                 // 폼 기반 로그인에 대한 설정  로그인 성공 시 /swagger-ui/index.html로 디라이렉트
                 // alwaysUse를 true 로 설정하면 로그인 성공 시 항상 Swagger로 리다이렉트
-//                        .formLogin(form -> form
-//                        .defaultSuccessUrl("/swagger-ui/index.html", true)
-//                        //permitAll은 인증 없이 접근 가능한 경로지정
-//                        .permitAll())
+                     // 실습 1
+                        .formLogin(form -> form
+                        .defaultSuccessUrl("/swagger-ui/index.html", true)
+                        //permitAll은 인증 없이 접근 가능한 경로지정
+                        .permitAll())
 
-                // 폼로그인 비활성화
-                .formLogin(AbstractHttpConfigurer::disable)
-                // JwtAuthFilter를 UsernamePasswordAuthenticationFilter 앞에 추가
-               // // JwtAuthFilter를 UsernamePasswordAuthenticationFilter
-                .addFilterBefore(jwtAuthFilter(), UsernamePasswordAuthenticationFilter.class)
-                //세션 사용 안 함
-                .sessionManagement(session ->
-                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                )
+
+//                // 실습 2
+//                // 폼로그인 비활성화
+//                .formLogin(AbstractHttpConfigurer::disable)
+//                // JwtAuthFilter를 UsernamePasswordAuthenticationFilter 앞에 추가
+//               // // JwtAuthFilter를 UsernamePasswordAuthenticationFilter
+//                .addFilterBefore(jwtAuthFilter(), UsernamePasswordAuthenticationFilter.class)
+//                //세션 사용 안 함
+//                .sessionManagement(session ->
+//                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//                )
+
                 .csrf(AbstractHttpConfigurer::disable)
 
                 .logout(logout -> logout
                         // /logout 경로로 로그아웃 처리
                         .logoutUrl("/logout")
+
                         // 성공 시 리다이렉트
-                        .logoutSuccessUrl("/login?logout")
+                        .logoutSuccessUrl("/swagger-ui/index.html")
                         .permitAll()
                 );
 
         return http.build();
     }
+    // 실습 1. 세션 방식 AuthenticationManager 빈등록
+    @Bean
+    public AuthenticationManager authenticationManager(
+            AuthenticationConfiguration authenticationConfiguration
+    ) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
+    }
+    // 실습 2. jwt 방식 JwtAuthFilter 빈 등록
     @Bean
     public JwtAuthFilter jwtAuthFilter() {
         return new JwtAuthFilter(jwtUtil, customUserDetailsService);
     }
+
 }

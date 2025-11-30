@@ -17,10 +17,13 @@ import com.example.umc_9th.grobal.auth.JwtUtil;
 import com.example.umc_9th.grobal.auth.enums.Role;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -35,6 +38,8 @@ public class MemberService {
     private final MemberFoodRepository memberFoodRepository;
     private final FoodRepository foodRepository;
     private final PasswordEncoder passwordEncoder;
+    // 인증을 관리하는 중심 컴포넌트
+    private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
 
     // 회원가입
@@ -63,32 +68,40 @@ public class MemberService {
     }
 
 
+//   1. 실습1
 
-    //실습2
-    public MemberResDTO.LoginDTO login(
-            MemberReqDTO.@Valid LoginDTO dto
-    ) {
+    @Transactional
+    public MemberResDTO.LoginDTO login(MemberReqDTO.LoginDTO dto) {
 
-        // Member 조회
-        Member member = memberRepository.findByEmail(dto.email())
-                .orElseThrow(() -> new MemberException(MemberErrorCode.NOT_FOUND));
+        // 1. Spring Security 인증 객체 생성
+        UsernamePasswordAuthenticationToken authenticationToken =
+                new UsernamePasswordAuthenticationToken(
+                        dto.email(),
+                        dto.password()
+                );
 
-        // 비밀번호 검증
-        if (!passwordEncoder.matches(dto.password(), member.getPassword())) {
-            throw new MemberException(MemberErrorCode.NOT_FOUND);
-        }
+        // 2. 인증 수행
+        Authentication authentication = authenticationManager.authenticate(authenticationToken);
 
-        // JWT 토큰 발급용 UserDetails
-        CustomUserDetails userDetails = new CustomUserDetails(member);
-        // 엑세스 토큰 발급
-        String accessToken = jwtUtil.createAccessToken(userDetails);
+        // 3. SecurityContext에 저장 → 세션에 자동 저장됨
+        //    이 시점에 HttpSession에 인증 정보가 저장되고
+        //    클라이언트에게 JSESSIONID 쿠키가 발급됨
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        // DTO
-        return MemberConverter.toLoginDTO(member, accessToken);
+
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        Member member = userDetails.getMember();
+
+        return MemberConverter.toLoginDTO(member);
     }
 
 
-//    //1. 실습1
+    public void logout() {
+        // SecurityContext 초기화
+        SecurityContextHolder.clearContext();
+    }
+
+    //실습2
 //    public MemberResDTO.LoginDTO login(
 //            MemberReqDTO.@Valid LoginDTO dto
 //    ) {
@@ -102,23 +115,17 @@ public class MemberService {
 //            throw new MemberException(MemberErrorCode.NOT_FOUND);
 //        }
 //
-//        // Spring Security 인증 객체 생성
+//        // JWT 토큰 발급용 UserDetails
 //        CustomUserDetails userDetails = new CustomUserDetails(member);
+//        // 엑세스 토큰 발급
+//        String accessToken = jwtUtil.createAccessToken(userDetails);
 //
-//        // 인증 토큰 생성
-//        // SecurityContext에 저장할 인증객체 생성
-//        UsernamePasswordAuthenticationToken authToken =
-//                new UsernamePasswordAuthenticationToken(
-//                        userDetails,
-//                        true,
-//                        userDetails.getAuthorities()
-//                );
-//
-//        // SecurityContext에 인증 정보 저장 (세션에 자동 저장됨)
-//        SecurityContextHolder.getContext().setAuthentication(authToken);
 //        // DTO
-//        return MemberConverter.toLoginDTO(member);
+//        return MemberConverter.toLoginDTO(member, accessToken);
 //    }
+
+
+
 
 
 }
