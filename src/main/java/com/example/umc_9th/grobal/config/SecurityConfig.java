@@ -18,7 +18,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 // 어노테이션은 Spring Security 설정을 활성화시키는 역할
-
 @EnableWebSecurity
 @Configuration
 @RequiredArgsConstructor
@@ -27,6 +26,8 @@ public class SecurityConfig {
     private final JwtUtil jwtUtil;
     private final CustomUserDetailsService customUserDetailsService;
 
+
+    // 비밀번호 솔트를 위한 PasswordEncoder 설정
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -50,8 +51,10 @@ public class SecurityConfig {
 
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                // HTTP 요청에 대한 접근 제어를 설정
                 .authorizeHttpRequests(requests -> requests
                         //requestMatchers 를 사용하여 특정 URL에 대한 권한 접근 설정
+                        // allowUris배열로 빼서 정의
                         .requestMatchers(allowUris).permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         // ADMIN 역할을 가진 사용자만 접근 가능

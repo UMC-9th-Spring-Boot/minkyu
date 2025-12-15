@@ -74,6 +74,8 @@ public class MemberService {
     public MemberResDTO.LoginDTO login(MemberReqDTO.LoginDTO dto) {
 
         // 1. Spring Security 인증 객체 생성
+        // UsernamePasswordAuthenticationToken 클래스는  implements를 통해 Authentication를 구현한 객체
+        // 인증 전 사용자 정보 담은 객체
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(
                         dto.email(),
@@ -81,17 +83,25 @@ public class MemberService {
                 );
 
         // 2. 인증 수행
+        //AuthenticationManager가 맞는 AuthenticationProvider 찾음
+        // 대부적으로 UserDetailsService.loadUserByUsername(email) 호출
+        // 커스텀한  CustomUserDetailsService의 loadUserByUsername메서드 실행 DB에서 사용자 정보 조회
+
         Authentication authentication = authenticationManager.authenticate(authenticationToken);
 
         // 3. SecurityContext에 저장 → 세션에 자동 저장됨
         //    이 시점에 HttpSession에 인증 정보가 저장되고
         //    클라이언트에게 JSESSIONID 쿠키가 발급됨
+        //인증된 authentication객체를 SecurityContext에 저장함 -> HttpSession에도 자동 저장
+        // 클라이언트에게 JSESSIONID 쿠키가 발급됨
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
 
+        // 인증된 authentication 객체에서 사용자 상세정보 뽑아옴
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
         Member member = userDetails.getMember();
 
+        // 응답 DTO로 변환
         return MemberConverter.toLoginDTO(member);
     }
 

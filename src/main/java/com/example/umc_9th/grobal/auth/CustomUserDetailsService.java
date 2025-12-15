@@ -17,6 +17,9 @@ public class CustomUserDetailsService implements UserDetailsService {
     private final MemberRepository memberRepository;
 
      //생성한 UserDetails 검증
+    //         Authentication authentication = authenticationManager.authenticate(authenticationToken);
+    // 이 한 줄 호출 딜 때  CustomUserDetailsService에서 loadUserByUsername 호출해서 사용자 검색
+    // 인증 성공 시  CustomUserDetails 반환 인자값으로 Member 객체 담아서
     @Override
     public UserDetails loadUserByUsername(
             String username // 이메일
