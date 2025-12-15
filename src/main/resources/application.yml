@@ -12,8 +12,15 @@ spring:
     database: mysql
     show-sql: true
     hibernate:
-      # (경고) 테이블 생성 후 반드시 'validate'로 변경하세요.
-      ddl-auto: create-drop
+      # (참고) 개발 중에는 'update', 배포 시에는 'validate' 또는 'none' 권장
+      ddl-auto: update
     properties:
       hibernate:
         format_sql: true
+
+jwt:
+  token:
+    # ⚠️ 중요: 특수문자와 공백이 포함된 키 값은 반드시 큰따옴표("")로 감싸야 합니다.
+    secretKey: "ZGh3YWlkc2F2ZXdhZXZ3b2EgMTM5ZXUgMDMxdWMyIHEyMiBAIDAgKTJFVio="
+    expiration:
+      access: 14400000

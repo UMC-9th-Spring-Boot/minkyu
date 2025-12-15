@@ -1,7 +1,9 @@
 package com.example.umc_9th.domain.review.controller;
 
 import com.example.umc_9th.domain.review.dto.res.ReviewResponseDTO;
-import com.example.umc_9th.domain.review.service.ReviewQueryService;
+import com.example.umc_9th.domain.review.entity.Review;
+import com.example.umc_9th.domain.review.exception.code.ReviewSuccessCode;
+import com.example.umc_9th.domain.review.service.query.ReviewQueryService;
 import com.example.umc_9th.grobal.apiPayload.ApiResponse;
 import com.example.umc_9th.grobal.apiPayload.code.GeneralSuccessCode;
 import io.swagger.v3.oas.annotations.Operation;
@@ -18,27 +20,48 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "Review", description = "리뷰 관련 API")
-public class ReviewController {
+public class ReviewController implements ReviewControllerDocs{
 
     private final ReviewQueryService reviewQueryService;
 
+    @GetMapping("/reviews")
+    public ApiResponse<ReviewResponseDTO.ReviewPreViewDTO> getReviews(
+            @RequestParam String storeName,
+            @RequestParam Integer page
+    ){
+        ReviewSuccessCode code=ReviewSuccessCode.FOUND;
+
+        return ApiResponse.success(code,null);
+    }
+
+//    @GetMapping("/reviews/search")
+//    public List<Review>searchReview(@RequestParam String filter, @RequestParam String type)throws Exception{
+//        // 서비스 요청
+//        //List<Review>result=reviewQueryService.searchReview(filter,type);
+//        //return result;
+//
+//    }
+
+// 1. 내가 작성한 리뷰 목록
+    @Override
     @GetMapping("/members/{memberId}/reviews/search")
-    @Operation(
-            summary = "내 리뷰 조회",
-            description = "회원이 작성한 리뷰를 조회합니다. storeId와 rating으로 필터링할 수 있습니다."
-    )
     public ApiResponse<List<ReviewResponseDTO.ReviewDTO>> searchMyReview(
-            @Parameter(description = "회원 ID", required = true)
+            @Parameter( required = true)
             @PathVariable Long memberId,
 
-            @Parameter(description = "가게 ID (선택)")
+            @Parameter()
             @RequestParam(required = false) Long storeId,
 
-            @Parameter(description = "별점 (1-5, 선택)")
-            @RequestParam(required = false) Integer rating
+            @Parameter()
+            @RequestParam(required = false) Integer rating,
+
+            @Parameter()
+            @RequestParam(required = false)Integer page
+
     ) {
-        List<ReviewResponseDTO.ReviewDTO> reviewList = reviewQueryService.searchMyReviews(memberId, storeId, rating);
+        List<ReviewResponseDTO.ReviewDTO> reviewList = reviewQueryService.searchMyReviews(memberId, storeId, rating,page);
 
         return ApiResponse.success(GeneralSuccessCode.REVIEWS_FOUND, reviewList);
     }
+
 }

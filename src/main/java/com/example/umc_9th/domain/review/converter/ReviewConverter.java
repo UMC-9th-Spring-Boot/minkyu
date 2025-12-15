@@ -6,7 +6,10 @@ import com.example.umc_9th.domain.review.dto.res.ReviewResponseDTO;
 import com.example.umc_9th.domain.review.entity.Review;
 import com.example.umc_9th.domain.review.entity.ReviewImage;
 import com.example.umc_9th.domain.store.entity.Store;
+import org.springframework.data.domain.Page;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -68,4 +71,36 @@ public class ReviewConverter {
                 .createdAt(review.getCreatedAt())
                 .build();
     }
+    // 페이지 사용 컨버터
+    //
+    public static ReviewResponseDTO.ReviewPreViewListDTO toReviewPreviewListDTO(
+            Page<Review> result
+    ){
+        return ReviewResponseDTO.ReviewPreViewListDTO.builder()
+                .reviewList(result.getContent().stream()
+                        .map(ReviewConverter::toReviewPreviewDTO)
+                        .toList()
+                )
+                .listSize(result.getSize())
+                .totalPage(result.getTotalPages())
+                .totalElements(result.getTotalElements())
+                .isFirst(result.isFirst())
+                .isLast(result.isLast())
+                .build();
+    }
+
+    //getMember 불러올 수 있는 이유?
+    //JPA가 테이블의 연관관계 파악하고 연관성 있음 불러올 수 있는 기능 제공
+    public static ReviewResponseDTO.ReviewPreViewDTO toReviewPreviewDTO(
+            Review review
+    ){
+        return ReviewResponseDTO.ReviewPreViewDTO.builder()
+                .ownerNickname(review.getMember().getName())
+                .score(review.getRating())
+                .body(review.getContent())
+                .createdAt(LocalDateTime.from(review.getCreatedAt()))
+                .build();
+    }
+
+
 }
